@@ -1,0 +1,6 @@
+puts "Event Manager initialized!"
+
+path = 'event_attendees.csv'
+contents = File.read(path)
+
+puts contents
