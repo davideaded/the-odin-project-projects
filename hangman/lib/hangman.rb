@@ -13,52 +13,37 @@ def define_word(file)
   available_words[random].chomp
 end
 
-def print_guess
-  occult_word = ''
-  chances = 5
-
-  until occult_word.length == CORRECT_WORD.length do
-    occult_word << '_'
+def occult_word
+  word = ''
+  until word.length == CORRECT_WORD.length do
+    word << '_'
   end
 
-  puts occult_word
+  word
+end
+
+def start_game(word, chances)
   loop do
     guess = gets.chomp
     correct_guess = false
 
     CORRECT_WORD.split("").each_with_index do |l, i|
-      (occult_word[i] = guess) && (correct_guess = true) if l == guess && occult_word[i] == '_'
+      (word[i] = guess) && (correct_guess = true) if l == guess && word[i] == '_'
     end
 
     chances -= 1 if !correct_guess
-    puts "#{occult_word}\t #{chances} chances"
-    break if chances == 0 || !occult_word.include?('_')
+    puts "#{word}\t #{chances} chances"
+    break if chances == 0 || !word.include?('_')
   end
+end
 
-  puts occult_word
+def init_game
+  chances = 5
+  occulted_word = occult_word
+
+  puts occulted_word
+  start_game(occulted_word, chances)
 end
 
 CORRECT_WORD = define_word(dictionary)
-puts CORRECT_WORD
-print_guess
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def write_to_file(dictionary)
-#   words_arr = words_by_length(dictionary, 5, 12)
-#   file = File.open('output.txt', 'w')
-#   words_arr.each do |word|
-#     file.write(word)
-#   end
-# end
-
+init_game
