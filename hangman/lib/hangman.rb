@@ -13,4 +13,11 @@ def define_word(file)
   available_words[random]
 end
 
-puts define_word(dictionary)
+# def write_to_file(dictionary)
+#   words_arr = words_by_length(dictionary, 5, 12)
+#   file = File.open('output.txt', 'w')
+#   words_arr.each do |word|
+#     file.write(word)
+#   end
+# end
+
