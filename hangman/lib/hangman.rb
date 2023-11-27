@@ -15,19 +15,27 @@ end
 
 def print_guess
   occult_word = ''
+  chances = 5
+
   until occult_word.length == CORRECT_WORD.length do
     occult_word << '_'
   end
 
-  while occult_word.include?('_') do
+  puts occult_word
+  loop do
     guess = gets.chomp
+    correct_guess = false
+
     CORRECT_WORD.split("").each_with_index do |l, i|
-      occult_word[i] = guess if l == guess && occult_word[i] == '_'
+      (occult_word[i] = guess) && (correct_guess = true) if l == guess && occult_word[i] == '_'
     end
-    p occult_word
+
+    chances -= 1 if !correct_guess
+    puts "#{occult_word}\t #{chances} chances"
+    break if chances == 0 || !occult_word.include?('_')
   end
 
-  p occult_word
+  puts occult_word
 end
 
 CORRECT_WORD = define_word(dictionary)
