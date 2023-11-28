@@ -23,6 +23,20 @@ def occult_word(original_word)
   word
 end
 
+def check_player_guess(guess, guesses)
+  if guess.length != 1 || guess == ""
+    puts "#{guess} must be one letter!"
+    return nil
+  end
+
+  if guesses.include?(guess)
+    puts guesses.include?(guess)
+    puts "Already used letter!"
+    return nil
+  end
+  true
+end
+
 def start_game(chances)
   correct_word = define_word
   occulted_word = occult_word(correct_word)
@@ -31,10 +45,8 @@ def start_game(chances)
   loop do
     puts "Enter a letter:"
     guess = gets.chomp
-    if guesses.include?(guess)
-      puts "Already used letter!"
-      next
-    end
+    check_guess = check_player_guess(guess, guesses)
+    next if check_guess == nil
     correct_guess = false
     guesses.push(guess)
 
