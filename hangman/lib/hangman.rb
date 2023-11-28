@@ -28,9 +28,13 @@ def start_game(chances)
   occulted_word = occult_word(correct_word)
   guesses = []
   
-  puts "Enter a letter:"
   loop do
+    puts "Enter a letter:"
     guess = gets.chomp
+    if guesses.include?(guess)
+      puts "Already used letter!"
+      next
+    end
     correct_guess = false
     guesses.push(guess)
 
@@ -44,7 +48,7 @@ def start_game(chances)
     break if chances == 0 || !occulted_word.include?('_')
   end
 
-  occulted_word.include?('_') ? (puts "You lost! The word was: #{correct_word}") : (puts "You win!")
+  occulted_word.include?('_') ? (puts "You lost! The word was: #{correct_word}") : (puts "You won!")
 end
 
 def init_game
