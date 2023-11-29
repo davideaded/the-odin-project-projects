@@ -82,7 +82,7 @@ class Game
       occulted_word[i] = guess if l == guess && occulted_word[i] == '_'
     end
 
-    occulted_word 
+    occulted_word
   end
 
   def save_game
@@ -92,18 +92,18 @@ class Game
     exit(0)
   end
 
-  def load_game
-    file = File.open('savegame.yaml', 'r')
-    YAML.load(file)
-  end
-
   def start_game
     chances = 7
+    puts dictionary.occulted_word
+    puts "Used letters: #{player.guesses}"
     loop do
       puts "Enter a letter or press '0' to save current game"
       guess = player.make_guess
       save_game if guess == '0'
-      next if !guess.is_a?(String)
+      if !guess.is_a?(String)
+        puts occulted_word
+        next
+      end
       occulted_word = check_guess(guess)
 
       chances -= 1 if !occulted_word.include?(guess)
@@ -112,23 +112,6 @@ class Game
       break if chances == 0 || !occulted_word.include?('_')
     end
     dictionary.occulted_word.include?('_') ? (puts "You lost! The word was: #{dictionary.correct_word}") : (puts "You won!")
-  end
-
-  def init_game
-    response = ''
-
-    start_game
-    #
-    # while response != 'n' do 
-    #   puts "Play again? (Y/N)"
-    #   response = gets.chomp.downcase
-    #   if response == 'y'
-    #     correct_word = dictionary.define_word
-    #     occulted_word = dictionary.occult_word(correct_word)
-    #     player.clear_guesses
-    #     start_game(correct_word, occulted_word)
-    #   end
-    # end
   end
 end
 
@@ -140,7 +123,23 @@ def load_save
   return player_data, dictionary_data
 end
 
-# game = Game.new(player, dictionary)
-datas = load_save
-game = Game.new(datas[0], datas[1])
-game.init_game
+loop do
+  puts "Hangman game! \nSelect: 1) Play 2) Load game"
+  select = gets.chomp
+
+  until ['1', '2'].include?(select)
+    puts "Invalid selection!"
+    select = gets.chomp
+  end
+
+  if select == '2'
+    player, dictionary = load_save
+    game = Game.new(player, dictionary)
+    else
+      game = Game.new
+  end
+  game.start_game
+  puts "Play again? (y/n)"
+  response = gets.chomp.downcase
+  break if response == 'n'
+end
