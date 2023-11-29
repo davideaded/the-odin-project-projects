@@ -21,7 +21,6 @@ class Player
     end
 
     if guesses.include?(guess)
-      puts guesses.include?(guess)
       puts "Already used letter!"
       return nil
     end
