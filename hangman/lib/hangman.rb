@@ -116,8 +116,13 @@ class Game
 end
 
 def load_save
-  saved_data = YAML.safe_load(File.read('savegame.yaml'), permitted_classes: [Player, Dictionary, Game])
-  
+  if !File.exist?('savegame.yaml')
+    puts "No save data found! Starting a new game!"
+    return Player.new, Dictionary.new
+  end
+
+  file = File.read('savegame.yaml')
+  saved_data = YAML.safe_load(file, permitted_classes: [Player, Dictionary, Game])
   player_data = saved_data['player']
   dictionary_data = saved_data['dictionary']
   return player_data, dictionary_data
