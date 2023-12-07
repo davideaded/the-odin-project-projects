@@ -1,4 +1,14 @@
+class Node
+  attr_accessor :value, :next
+
+  def initialize(value)
+    @value = value
+    @next = nil
+  end
+end
+
 class LinkedList
+
   def initialize
     @head = nil
     @tail = nil
@@ -37,11 +47,22 @@ class LinkedList
   end
 
   def head
-    @head.value.dup
+    @head ? @head.value.dup : nil
   end
 
   def tail
-    @tail.value.dup
+    @tail ? @tail.value.dup : nil
+  end
+
+  def at(index)
+  return nil if index > size
+    node = @head
+    i = 1
+    while i < index
+      node = node.next
+      i += 1
+    end
+    node
   end
 
   def to_s
@@ -54,13 +75,9 @@ class LinkedList
     stringfied_list << 'nil'
     stringfied_list
   end
-end
 
-class Node
-  attr_accessor :value, :next
-
-  def initialize(value)
-    @value = value
-    @next = nil
+  def pop
+    @tail = nil
+    at(size - 1).next = nil
   end
 end
