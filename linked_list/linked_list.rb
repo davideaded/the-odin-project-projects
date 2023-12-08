@@ -55,12 +55,11 @@ class LinkedList
   end
 
   def at(index)
-  return nil if index > size
+    return nil if index > size
+
     node = @head
-    i = 1
-    while i < index
+    index.times do
       node = node.next
-      i += 1
     end
     node
   end
@@ -95,7 +94,7 @@ class LinkedList
   def find(value)
     return nil unless contains?(value)
     i = 0
-    while i < size
+    while i <= size
       node = at(i)
       return i if node.value == value
       i += 1
