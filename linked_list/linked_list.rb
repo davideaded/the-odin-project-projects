@@ -65,6 +65,11 @@ class LinkedList
     node
   end
 
+  def pop
+    @tail = nil
+    at(size - 1).next = nil
+  end
+
   def to_s
     node = @head
     stringfied_list = ""
@@ -76,8 +81,24 @@ class LinkedList
     stringfied_list
   end
 
-  def pop
-    @tail = nil
-    at(size - 1).next = nil
+  def contains?(value)
+    node = @head
+    while node != nil
+      if node.value == value
+        return true
+      end
+      node = node.next
+    end
+    false
+  end
+
+  def find(value)
+    return nil unless contains?(value)
+    i = 0
+    while i < size
+      node = at(i)
+      return i if node.value == value
+      i += 1
+    end
   end
 end
