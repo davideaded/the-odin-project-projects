@@ -73,18 +73,28 @@ class Tree
   end
 
   def level_order
-    queue = []
-    node = @root
-    while !queue.empty? || !node.nil?
-      node.left != nil ? queue.push(node.left) : nil
-      node.right != nil ? queue.push(node.right) : nil
-      yield(node)
+    queue = [@root]
+    values = []
+    while !queue.empty?
       node = queue.shift
+      values << node.data
+      queue.push(node.left) unless node.left.nil?
+      queue.push(node.right) unless node.right.nil?
+      yield node if block_given?
     end
+    values
+  end
+
+  def rec_level_order(queue = [@root], values = [], &block)
+    return values if queue.empty?
+    node = queue.shift
+    values << node.data if node
+    yield node if block_given?
+    queue.push(node.left) unless node.left.nil?
+    queue.push(node.right) unless node.right.nil?
+    rec_level_order(queue, values, &block)
   end
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 tree = Tree.new(arr)
-tree.pretty_print
-tree.level_order {|n| p n.data * 2}
