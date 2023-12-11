@@ -61,10 +61,19 @@ class Tree
     node = node.left until node.left.nil?
     node
   end
+
+  def find(value)
+    node = @root
+    if value < node.data
+      node = node.left until node.nil? || node.data == value
+    else
+      node = node.right until node.nil? || node.data == value
+    end
+    node
+  end
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 tree = Tree.new(arr)
-tree.delete(4)
-tree.delete(67)
 tree.pretty_print
+p tree.find(1024)
