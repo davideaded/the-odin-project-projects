@@ -71,9 +71,20 @@ class Tree
     end
     node
   end
+
+  def level_order
+    queue = []
+    node = @root
+    while !queue.empty? || !node.nil?
+      node.left != nil ? queue.push(node.left) : nil
+      node.right != nil ? queue.push(node.right) : nil
+      yield(node)
+      node = queue.shift
+    end
+  end
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 tree = Tree.new(arr)
 tree.pretty_print
-p tree.find(1024)
+tree.level_order {|n| p n.data * 2}
