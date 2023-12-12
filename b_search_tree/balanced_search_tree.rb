@@ -109,10 +109,30 @@ class Tree
     end
     values
   end
+
+  def inorder
+    node = @root
+    values = []
+    stack = [node.right, node.left]
+
+    while !stack.empty?
+      if stack.length == 1 && stack[0] == @root.right
+        node = @root
+        yield node if block_given?
+        values << node.data
+      end
+      node = stack.pop
+      yield node if block_given?
+      values << node.data
+      stack.push(node.right) if node.right != nil
+      stack.push(node.left) if node.left != nil
+    end
+    values
+  end
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 tree = Tree.new(arr)
 tree.pretty_print
-p tree.preorder
-tree.preorder {|n| p n.data / 2}
+p tree.inorder
+tree.inorder {|n| p n.data*3}
