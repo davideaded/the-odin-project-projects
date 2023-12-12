@@ -156,7 +156,18 @@ class Tree
     j += 1 until (node = node.right if node) == nil
     i > j ? i : j
   end
+
+  def depth(n, node = @root, i = 0)
+    return i if n == node.data
+    if n < node.data
+      depth(n, node.left, i +=1)
+    else
+      depth(n, node.right, i+=1)
+    end
+  end
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 tree = Tree.new(arr)
+tree.pretty_print
+p tree.depth(8)
