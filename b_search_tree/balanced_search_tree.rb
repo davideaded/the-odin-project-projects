@@ -147,10 +147,16 @@ class Tree
     values << node.data
     values
   end
+
+  def height(n)
+    node = find(n)
+    return nil if node.nil?
+    i = j = 0
+    i += 1 until (node = node.left if node) == nil
+    j += 1 until (node = node.right if node) == nil
+    i > j ? i : j
+  end
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 tree = Tree.new(arr)
-tree.pretty_print
-p tree.postorder
-tree.postorder {|n| p n.data*3}
