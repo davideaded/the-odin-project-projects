@@ -129,10 +129,28 @@ class Tree
     end
     values
   end
+
+  def postorder
+    node = @root
+    values = []
+    stack = [node.right, node.left]
+
+    while !stack.empty?
+      node = stack.pop
+      yield node if block_given?
+      values << node.data
+      stack.push(node.right) if node.right != nil
+      stack.push(node.left) if node.left != nil
+    end
+    node = @root
+    yield node if block_given?
+    values << node.data
+    values
+  end
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 tree = Tree.new(arr)
 tree.pretty_print
-p tree.inorder
-tree.inorder {|n| p n.data*3}
+p tree.postorder
+tree.postorder {|n| p n.data*3}
