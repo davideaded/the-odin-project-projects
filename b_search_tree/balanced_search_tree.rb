@@ -62,14 +62,9 @@ class Tree
     node
   end
 
-  def find(value)
-    node = @root
-    if value < node.data
-      node = node.left until node.nil? || node.data == value
-    else
-      node = node.right until node.nil? || node.data == value
-    end
-    node
+  def find(value, node = @root)
+    return node if node.nil? || node.data == value
+    value < node.data ? find(value, node.left) : find(value, node.right)
   end
 
   def level_order
@@ -148,13 +143,13 @@ class Tree
     values
   end
 
-  def height(n)
-    node = find(n)
-    return nil if node.nil?
-    i = j = 0
-    i += 1 until (node = node.left if node) == nil
-    j += 1 until (node = node.right if node) == nil
-    i > j ? i : j
+  def height(node)
+    return -1 if node.nil?
+
+    left_height = height(node.left)
+    right_height = height(node.right)
+
+    [left_height, right_height].max + 1
   end
 
   def depth(n, node = @root, i = 0)
@@ -165,9 +160,16 @@ class Tree
       depth(n, node.right, i+=1)
     end
   end
+
+  def balanced?(node = @root)
+    return true if node.nil?
+    left_height = height(node.left)
+    right_height = height(node.right)
+
+    return true if (left_height - right_height).abs <= 1 && balanced?(node.left) && balanced?(node.right)
+    false
+  end
 end
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 tree = Tree.new(arr)
-tree.pretty_print
-p tree.depth(8)
