@@ -175,5 +175,23 @@ class Tree
   end
 end
 
-arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+arr = (Array.new(15) { rand(1..100) })
 tree = Tree.new(arr)
+p tree.balanced?
+p tree.level_order
+p tree.preorder
+p tree.postorder
+p tree.inorder
+
+5.times do
+  n = rand(100..500)
+  tree.insert(n)
+end
+p tree.balanced?
+tree.rebalance
+p tree.balanced?
+p tree.level_order
+p tree.preorder
+p tree.postorder
+p tree.inorder
+# tree.pretty_print
