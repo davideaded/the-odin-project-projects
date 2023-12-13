@@ -108,22 +108,22 @@ class Tree
   def inorder
     node = @root
     values = []
-    stack = [node.right, node.left]
+    stack = []
 
-    while !stack.empty?
-      if stack.length == 1 && stack[0] == @root.right
-        node = @root
-        yield node if block_given?
-        values << node.data
+    while !stack.empty? || node
+      while node
+        stack.push(node)
+        node = node.left
       end
+
       node = stack.pop
       yield node if block_given?
       values << node.data
-      stack.push(node.right) if node.right != nil
-      stack.push(node.left) if node.left != nil
+      node = node.right
     end
     values
   end
+
 
   def postorder
     node = @root
@@ -168,6 +168,10 @@ class Tree
 
     return true if (left_height - right_height).abs <= 1 && balanced?(node.left) && balanced?(node.right)
     false
+  end
+
+  def rebalance
+    @root = build_tree(inorder)
   end
 end
 
