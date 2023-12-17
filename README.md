@@ -9,3 +9,5 @@ This a repository for the [The Odin Project](https://www.theodinproject.com) pro
 ### [Balanced Binary Search Tree](https://www.theodinproject.com/lessons/ruby-binary-search-trees)
 
 ### [Knights Travails](https://www.theodinproject.com/lessons/ruby-knights-travails)
+
+### [Connect Four](https://www.theodinproject.com/lessons/ruby-connect-four)
